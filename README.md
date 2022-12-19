@@ -4,7 +4,7 @@ This is a Telegram bot with a base of math problems with three different topics 
 You ask the bot to send a problem by clicking the **"Give task"** button. 
 
 The possible commands are:
-1. Give task. Before recieving a task there is an option to choose the subject of the problem (Set theory, Logic and Combinatorics)
+1. Send a problem. Before receiving a task there is an option to choose the area (Set theory, Geometry, Logic and Combinatorics)
 1. Give a hint (there is one hint for each problem)
 2. Give a solution
 
