@@ -8,7 +8,7 @@ from telegram.ext import MessageHandler, Filters
 from bot.constants import START_TEXT, INVALID_COMMAND, CHOOSE_SUBJECT, INSTRUCTION
 from task.task import Task
 from task.task_manager import TaskManager
-from keys import TG_BOT_TOKEN, PROXY
+from keys import TG_BOT_TOKEN
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)

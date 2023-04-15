@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import List
 from task.task import Task
 import psycopg2
 import os
@@ -14,11 +14,11 @@ class Database:
         cur = self.conn.cursor()
         cur.execute("""CREATE TABLE IF NOT EXISTS tasks (
                 name varchar(255),
-                statement varchar(1024),
+                statement varchar(4096),
                 subject varchar(255),
                 level int,
                 hint varchar(255),
-                solution varchar(1024)
+                solution varchar(4096)
             );
         """)
         self.conn.commit()
