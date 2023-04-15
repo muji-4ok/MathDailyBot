@@ -1,4 +1,4 @@
-from src.task.user import User
+from task.user import User
 
 class TestUser:
     def test_is_given(self):

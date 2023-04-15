@@ -1,4 +1,4 @@
-from src.task.level import Level
+from task.level import Level
 
 
 class Task:

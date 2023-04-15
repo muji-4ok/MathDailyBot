@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-from src.task.task import Task
+from task.task import Task
 
 
 class User:
