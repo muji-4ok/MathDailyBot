@@ -5,7 +5,7 @@ import logging
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
 
-from bot.constants import START_TEXT, INVALID_COMMAND, CHOOSE_SUBJECT, INSTRUCTION
+from bot.constants import START_TEXT, INVALID_COMMAND, CHOOSE_SUBJECT, INSTRUCTION, GIVE_TASK, SET_SUBJECT
 from task.task import Task
 from task.task_manager import TaskManager
 from keys import TG_BOT_TOKEN
@@ -32,7 +32,7 @@ class TGBot:
     def start(self, update: telegram.update, context):
         self.task_manager.register_new_user(update.effective_chat.id)
 
-        custom_keyboard = [[KeyboardButton('Give task'), KeyboardButton('Set subject')]]
+        custom_keyboard = [[KeyboardButton(GIVE_TASK), KeyboardButton(SET_SUBJECT)]]
         reply_markup = ReplyKeyboardMarkup(custom_keyboard)
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text=START_TEXT,
@@ -44,10 +44,10 @@ class TGBot:
         except KeyError as e:
             context.bot.send_message(chat_id=update.effective_chat.id, text=str(e))
             return
-        reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Hint',
-                                                                   callback_data=('Hint' + '&' + str(task_id))),
-                                              InlineKeyboardButton('Solution',
-                                                                   callback_data=('Solution' + '&' + str(task_id)))]])
+        reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Подсказка',
+                                                                   callback_data=('Подсказка' + '&' + str(task_id))),
+                                              InlineKeyboardButton('Решение',
+                                                                   callback_data=('Решение' + '&' + str(task_id)))]])
         context.bot.send_message(chat_id=update.effective_chat.id, text=task_statement, reply_markup=reply_markup)
 
     def callback_query_handler(self, update, context):
@@ -58,23 +58,23 @@ class TGBot:
 
         user_id = query.from_user.id
         query_type, task_id = query.data.split('&')
-        if query_type == 'Hint':
+        if query_type == 'Подсказка':
             context.bot.send_message(chat_id=user_id,
-                                     text=f'Hint: {self.task_manager.get_hint(user_id, int(task_id))}')
-        elif query_type == 'Solution':
+                                     text=f'Подсказка: {self.task_manager.get_hint(user_id, int(task_id))}')
+        elif query_type == 'Решение':
             context.bot.send_message(chat_id=user_id,
-                                     text=f'Solution: {self.task_manager.get_solution(user_id, int(task_id))}')
+                                     text=f'Решение: {self.task_manager.get_solution(user_id, int(task_id))}')
         elif query_type in Task.get_subjects_list():
             self.task_manager.set_subject(user_id, query_type)
             context.bot.send_message(chat_id=user_id,
-                                     text=f'Subject set to {query_type}')
+                                     text=f'Установлена тема {query_type}')
 
     def button_messages_handler(self, update, context):
         message_text = update.message.text
         print(f'message_text: {message_text}')
-        if message_text == 'Give task':
+        if message_text == GIVE_TASK:
             self.give_task(update, context)
-        elif message_text == 'Set subject':
+        elif message_text == SET_SUBJECT:
             self.set_subject(update, context)
         else:
             context.bot.send_message(chat_id=update.effective_chat.id, text=INVALID_COMMAND)
@@ -83,7 +83,8 @@ class TGBot:
         keyboard = []
         for subject in Task.get_subjects_list():
             keyboard.append(InlineKeyboardButton(subject, callback_data=(subject + '&')))
-        reply_markup = InlineKeyboardMarkup([keyboard])
+        # TODO: generalize
+        reply_markup = InlineKeyboardMarkup([keyboard[:3], keyboard[3:]])
         context.bot.send_message(chat_id=update.effective_chat.id, text=CHOOSE_SUBJECT,
                                  reply_markup=reply_markup)
 

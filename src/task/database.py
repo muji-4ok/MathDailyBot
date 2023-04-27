@@ -17,7 +17,7 @@ class Database:
                 statement varchar(4096),
                 subject varchar(255),
                 level int,
-                hint varchar(255),
+                hint varchar(4096),
                 solution varchar(4096)
             );
         """)
@@ -45,8 +45,8 @@ class Database:
                 'Statement': task[1],
                 'Subject': task[2],
                 'Level': task[3],
-                'Hint': task[4],
-                'Solution': task[5],
+                'Подсказка': task[4],
+                'Решение': task[5],
             }
             if data == {}:
                 continue
@@ -54,8 +54,8 @@ class Database:
                 continue
             if 'Subject' in user_task_settings and not data['Subject'] == user_task_settings['Subject']:
                 continue
-            if 'Statement' in data and 'Solution' in data and 'Subject' in data and \
-                    'Name' in data and 'Level' in data and 'Hint' in data:
-                tasks.append(Task(data['Name'], data['Statement'], data['Solution'],
-                                  data['Hint'], data['Level'], data['Subject']))
+            if 'Statement' in data and 'Решение' in data and 'Subject' in data and \
+                    'Name' in data and 'Level' in data and 'Подсказка' in data:
+                tasks.append(Task(data['Name'], data['Statement'], data['Решение'],
+                                  data['Подсказка'], data['Level'], data['Subject']))
         return tasks

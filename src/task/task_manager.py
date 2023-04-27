@@ -45,8 +45,7 @@ class TaskManager:
                           if not self.users_manager.get_user_by_id(user_id).is_given(task)]
         # now we have a list of tasks which meet all the criteria
         if not relevant_tasks:  # At least one task has been given
-            raise KeyError('There are no problems meeting your criteria. '
-                           'Please choose a different subject and/or complexity')
+            raise KeyError('Больше нет задач, удовлетворяющих критериям. Выбери другую тему и/или сложность')
         task = relevant_tasks[0]
         # user_ind = self.users_manager.get_user_ind_by_id(user_id)
         self.users_manager.users[user_id].give_task(task)

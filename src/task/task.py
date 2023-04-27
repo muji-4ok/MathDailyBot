@@ -54,7 +54,7 @@ class Task:
             self.is_hint = True
             return self.hint
         else:
-            return "No more hints are available. Would you like to see the solution?"
+            return "Больше нет подсказок. Хочешь увидеть решение?"
 
     # Levels
     def set_level(self, lev):
@@ -65,7 +65,7 @@ class Task:
 
     @staticmethod
     def get_subjects_list():
-        return ['Logic', 'Set theory', 'Combinatorics']
+        return ['Логика', 'Теория групп', 'Комбинаторика', 'Вопросы для интервью']
 
     def __str__(self) -> str:
         return f"('{self.name}', )"
